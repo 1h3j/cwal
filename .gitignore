@@ -13,6 +13,7 @@
 /*.so
 /*.dylib
 /*.out
+/.cache
 
 # IDE files
 .vscode/
