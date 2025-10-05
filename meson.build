@@ -12,6 +12,7 @@ inc = include_directories('include')
 executable(
   'color_palette',
   'src/main.cpp',
+  'src/palette.cpp',
   include_directories: inc,
   dependencies: [opencv_dep],
   install: false

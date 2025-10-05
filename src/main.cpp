@@ -1,39 +1,52 @@
 #include <opencv2/opencv.hpp>
+#include <filesystem>
 #include <iostream>
+#include <string>
 
-using namespace cv;
-using namespace std;
+#include "palette.hpp"
 
-int main() {
-  Mat img = imread("image.jpg");
-  if (img.empty()) {
-    cout << "Image not loaded\n";
+int main(int argc, char** argv) {
+  std::string fileName;
+  int K = 3;
+
+  // Parse Argument //
+  if ( argc >= 2 ) {
+    fileName = argv[1]; 
+
+    if ( !std::filesystem::exists(fileName) ) {
+      std::cout << "File does not exist..\n";
+      return -1;
+    }
+
+    if ( argc == 3 ) {
+      K = std::atoi( argv[2] );
+      if ( K <= 0 ) {
+        std::cout << "Invalid number_of_colors\n";
+        return -1;
+      }
+    }
+  } else {
+    std::cout << "Usage: " << argv[0] << " image_path (number_of_colors default:3)\n";
     return -1;
   }
 
-  resize(img, img, Size(255, 255), 0, 0, INTER_AREA);
+  cv::Mat img = cv::imread(fileName);
+  if (img.empty()) {
+    std::cout << "Image not loaded\n";
+    return -1;
+  }
 
-  cout << "Loaded\n";
+  cv::resize(img, img, cv::Size(255, 255), 0, 0, cv::INTER_AREA);
+  cv::Mat centers = generatePalette(img, K);
 
-  Mat data;
-  img.convertTo(data, CV_32F);
-  data = data.reshape(1, data.total());  // Flatten to Nx3
-
-  int K = 6;
-  Mat labels, centers;
-  kmeans(data, K, labels,
-         TermCriteria(TermCriteria::EPS + TermCriteria::COUNT, 10, 1.0),
-         3, KMEANS_PP_CENTERS, centers);
-
-  Mat palette(100, 100 * K, CV_8UC3);
   for (int i = 0; i < K; ++i) {
     float b = centers.at<float>(i, 0);
     float g = centers.at<float>(i, 1);
     float r = centers.at<float>(i, 2);
-    Rect roi(i * 100, 0, 100, 100);
-    rectangle(palette, roi, Scalar(b, g, r), FILLED);
+    std::printf("%d:#%02x%02x%02x\n", i,
+                static_cast<uint8_t>(r * 255),
+                static_cast<uint8_t>(g * 255),
+                static_cast<uint8_t>(b * 255));
   }
-  imshow("Palette", palette);
-  waitKey(0);
   return 0;
 }

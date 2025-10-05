@@ -1,19 +1,6 @@
 # Build directory
 /build/
-/CMakeFiles/
-/Makefile
-/CMakeCache.txt
-/*.cmake
-/*.cbp
-/*.user
-/*.o
-/*.obj
-/*.exe
-/*.dll
-/*.so
-/*.dylib
-/*.out
-/.cache
+//
 
 # IDE files
 .vscode/
@@ -26,9 +13,6 @@ Thumbs.db
 
 # Logs
 *.log
-
-# Executables
-color_palette
 
 # Other generated files
 compile_commands.json
