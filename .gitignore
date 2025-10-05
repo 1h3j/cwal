@@ -1,0 +1,33 @@
+# Build directory
+/build/
+/CMakeFiles/
+/Makefile
+/CMakeCache.txt
+/*.cmake
+/*.cbp
+/*.user
+/*.o
+/*.obj
+/*.exe
+/*.dll
+/*.so
+/*.dylib
+/*.out
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Executables
+color_palette
+
+# Other generated files
+compile_commands.json
