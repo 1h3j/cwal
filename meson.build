@@ -1,5 +1,5 @@
 project(
-  'color_palette',
+  'cwal',
   'cpp',
   version: '1.0',
   default_options: ['cpp_std=c++17']
@@ -10,7 +10,7 @@ opencv_dep = dependency('opencv4', required: true)
 inc = include_directories('include')
 
 executable(
-  'color_palette',
+  'cwal',
   'src/main.cpp',
   'src/palette.cpp',
   include_directories: inc,
